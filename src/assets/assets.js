@@ -199,6 +199,7 @@ export const hotelDummyData = {
 };
 
 // Rooms Dummy Data
+//
 export const roomsDummyData = [
   {
     _id: "67f7647c197ac559e4089b96",
