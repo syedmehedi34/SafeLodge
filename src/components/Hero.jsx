@@ -3,7 +3,7 @@ import React from "react";
 const Hero = () => {
   return (
     <div>
-      hero will be here .. ..
+      hero will be here 
       {/*  */}
     </div>
   );
