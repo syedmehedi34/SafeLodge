@@ -7,7 +7,10 @@ const App = () => {
 
   return (
     <div>
+      {/*  */}
       {!isOwnerPath && <Navbar />}
+      {/*  */}
+
       {/*  */}
     </div>
   );
