@@ -10,6 +10,7 @@ const App = () => {
       {/*  */}
       {!isOwnerPath && <Navbar />}
       {/*  */}
+      {/*  */}
     </div>
   );
 };
