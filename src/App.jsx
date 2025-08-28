@@ -9,8 +9,6 @@ const App = () => {
     <div>
       {/*  */}
       {!isOwnerPath && <Navbar />}
-      {/*  */}
-      {/*  */}
     </div>
   );
 };
