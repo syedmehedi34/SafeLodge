@@ -7,6 +7,7 @@ const StarRating = ({ rating }) => {
         .fill("")
         .map((_, index) => (
           <img
+            key={index}
             src={
               rating > index ? assets.starIconFilled : assets.starIconOutlined
             }
