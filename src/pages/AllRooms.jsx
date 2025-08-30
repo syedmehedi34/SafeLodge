@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useNavigate } from "react-router-dom";
 import { assets, facilityIcons, roomsDummyData } from "../assets/assets";
 import StarRating from "../components/StarRating";
