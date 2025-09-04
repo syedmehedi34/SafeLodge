@@ -29,7 +29,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* total revenue  */}
+        {/* total revenue portion */}
         <div className="bg-primary/3 border border-primary/10 rounded flex p-4 pr-8">
           <img
             className="max-sm:hidden h-10"
