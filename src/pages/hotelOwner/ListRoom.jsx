@@ -18,7 +18,7 @@ const ListRoom = () => {
 
       {/* table here */}
       <div className="w-full max-w-3xl text-left border border-gray-300 rounded-lg max-h-80 overflow-y-scroll mt-3">
-        <table className="w-full">
+        <table className="w-full ">
           <thead className="bg-gray-50">
             <tr>
               <th className="py-3 px-4 text-gray-800 font-medium">Name</th>
