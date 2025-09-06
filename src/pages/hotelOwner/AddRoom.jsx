@@ -14,7 +14,7 @@ const AddRoom = () => {
     roomType: "",
     pricePerNight: 0,
     amenities: {
-      "Free Wifi": false,
+      "Free WiFi": false,
       "Free Breakfast": false,
       "Room Service": false,
       "Mountain View": false,
@@ -92,6 +92,34 @@ const AddRoom = () => {
           />
         </div>
       </div>
+
+      {/* amenities */}
+      <p className="text-gray-800 mt-4">Amenities</p>
+      <div className="flex flex-col flex-wrap mt-1 text-gray-400 max-w-sm">
+        {Object.keys(inputs.amenities).map((amenity, idx) => (
+          <div key={idx}>
+            <input
+              onChange={(e) =>
+                setInputs({
+                  ...inputs,
+                  amenities: {
+                    ...inputs.amenities,
+                    [amenity]: !inputs.amenities[amenity],
+                  },
+                })
+              }
+              type="checkbox"
+              id={`amenities${idx + 1}`}
+              checked={inputs.amenities[amenity]}
+            />
+            <label htmlFor={`amenities${idx + 1}`}> {amenity}</label>
+          </div>
+        ))}
+      </div>
+
+      <button className="bg-primary text-white px-8 py-2 rounded mt-8 cursor-pointer">
+        Add Room
+      </button>
     </form>
   );
 };
