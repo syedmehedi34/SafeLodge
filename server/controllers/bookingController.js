@@ -95,7 +95,7 @@ export const getUserBookings = async (req, res) => {
   }
 };
 
-// API
+// API to get booking details for owner
 export const getHotelBookings = async (req, res) => {
   try {
     const hotel = await Hotel.findOne({ owner: req.auth.userId });
