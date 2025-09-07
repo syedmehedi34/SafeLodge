@@ -1,4 +1,5 @@
 // npm i express dotenv cors mongoose cloudinary multer svix, | nodemon
+// model ->
 import express from "express";
 import "dotenv/config";
 import cors from "cors";
