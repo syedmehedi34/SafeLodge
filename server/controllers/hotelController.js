@@ -2,9 +2,12 @@ import Hotel from "../models/Hotel.js";
 import User from "../models/User.js";
 
 export const registerHotel = async (req, res) => {
+  console.log(req.user);
   try {
     const { name, address, contact, city } = req.body;
     const owner = req.user._id;
+    console.log("owner is ", owner);
+    console.log("try");
 
     // check if the user is already registered
     const hotel = await Hotel.findOne({ owner });
@@ -19,6 +22,7 @@ export const registerHotel = async (req, res) => {
 
     res.json({ success: true, message: "Hotel registered successfully" });
   } catch (error) {
+    console.log("catch");
     res.json({ success: false, message: error.message });
   }
 };

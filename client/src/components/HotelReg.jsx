@@ -16,7 +16,7 @@ const HotelReg = () => {
     try {
       event.preventDefault();
 
-      //
+      // * 8:07:00.  -
       const { data } = await axios.post(
         `/api/hotels/`,
         { name, contact, address, city },
@@ -30,9 +30,11 @@ const HotelReg = () => {
         setShowHotelReg(false);
       } else {
         toast.error(data.message);
+        console.log(data);
       }
     } catch (error) {
       toast.error(error.message);
+      console.log(error);
     }
   };
 
