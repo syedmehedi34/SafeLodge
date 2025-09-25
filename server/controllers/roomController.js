@@ -2,11 +2,15 @@ import Hotel from "../models/Hotel.js";
 import { v2 as cloudinary } from "cloudinary";
 import Room from "../models/Room.js";
 
-// API to create a new room for a hotel
+//? API to create a new room for a hotel
 export const createRoom = async (req, res) => {
   try {
     const { roomType, pricePerNight, amenities } = req.body;
+    // console.log(roomType, pricePerNight, amenities);
     const hotel = await Hotel.findOne({ owner: req.auth.userId });
+
+    // console.log("found hotel - ", hotel);
+    // console.log("files - ", req.files);
 
     if (!hotel) {
       return res.json({ success: false, message: "No hotel available" });
@@ -15,11 +19,13 @@ export const createRoom = async (req, res) => {
     // image upload to cloudinary
     const uploadImages = req.files.map(async () => {
       const response = await cloudinary.uploader.upload(file.path);
+      console.log("response -", uploadImages);
       return response.secure_url;
     });
 
     // wait for all uploads to complete
     const images = await Promise.all(uploadImages);
+    console.log("images - ", images);
     await Room.create({
       hotel: hotel._id,
       roomType,
