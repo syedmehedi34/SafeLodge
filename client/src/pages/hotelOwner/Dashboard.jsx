@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import Title from "../../components/Title";
 import { assets } from "../../assets/assets";
@@ -69,7 +68,7 @@ const Dashboard = () => {
           <div className="flex flex-col sm:ml-4 font-medium">
             <p className="text-blue-500 text-lg">Total Revenue</p>
             <p className="text-neutral-400 text-base">
-              $ {dashBoardData.totalRevenue}
+              {currency} {dashBoardData.totalRevenue}
             </p>
           </div>
         </div>
@@ -108,7 +107,7 @@ const Dashboard = () => {
                 </td>
 
                 <td className="py-3 px-4 text-gray-700 border-t border-gray-300 text-center">
-                  $ {item.totalPrice}
+                  {currency} {item.totalPrice}
                 </td>
 
                 <td className="py-3 px-4 border-t border-gray-300 flex">
