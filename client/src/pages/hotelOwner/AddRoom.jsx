@@ -2,8 +2,12 @@
 import { useState } from "react";
 import Title from "../../components/Title";
 import { assets } from "../../assets/assets";
+import { useAppContext } from "../../context/AppContext";
+import toast from "react-hot-toast";
 
 const AddRoom = () => {
+  const { axios, getToken } = useAppContext();
+
   const [images, setImages] = useState({
     1: null,
     2: null,
@@ -21,9 +25,77 @@ const AddRoom = () => {
       "Pool Access": false,
     },
   });
+  const [loading, setLoading] = useState(false);
+
+  //
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+
+    // check if all inputs are filled
+    if (
+      !inputs.roomType ||
+      !inputs.pricePerNight ||
+      !inputs.amenities ||
+      !Object.values(images).some((img) => img)
+    ) {
+      toast.error("Please fill all the fields");
+      return;
+    }
+    setLoading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("roomType", inputs.roomType);
+      formData.append("pricePerNight", inputs.pricePerNight);
+
+      // append amenities
+      const amenities = Object.keys(inputs.amenities).filter(
+        (amenity) => inputs.amenities[amenity]
+      );
+      formData.append("amenities", JSON.stringify(amenities));
+
+      // append images
+      Object.keys(images).forEach((key) => {
+        images[key] && formData.append("images", images[key]);
+      });
+
+      // api call
+      // console.log(formData);
+      const { data } = await axios.post("/api/rooms/", formData, {
+        headers: {
+          Authorization: `Bearer ${await getToken()}`,
+        },
+      });
+      console.log(formData);
+
+      console.log(data);
+      if (data.success) {
+        toast.success(data.message);
+        // reset all fields
+        setInputs({
+          roomType: "",
+          pricePerNight: 0,
+          amenities: {
+            "Free WiFi": false,
+            "Free Breakfast": false,
+            "Room Service": false,
+            "Mountain View": false,
+            "Pool Access": false,
+          },
+        });
+        setImages({ 1: null, 2: null, 3: null, 4: null });
+      } else {
+        toast.error(data.message);
+      }
+      setLoading(false);
+    } catch (error) {
+      toast.error(error.message);
+      console.log(error);
+    }
+  };
 
   return (
-    <form>
+    <form onSubmit={onSubmitHandler}>
       <Title
         align="left"
         font="outfit"
@@ -117,8 +189,11 @@ const AddRoom = () => {
         ))}
       </div>
 
-      <button className="bg-primary text-white px-8 py-2 rounded mt-8 cursor-pointer">
-        Add Room
+      <button
+        className="bg-primary text-white px-8 py-2 rounded mt-8 cursor-pointer"
+        disabled={loading}
+      >
+        {loading ? "Adding..." : "Add Room"}
       </button>
     </form>
   );
