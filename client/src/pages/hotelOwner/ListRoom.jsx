@@ -1,10 +1,52 @@
-/* eslint-disable no-unused-vars */
-import { useState } from "react";
-import { roomsDummyData } from "../../assets/assets";
+import { useEffect, useState } from "react";
 import Title from "../../components/Title";
+import { useAppContext } from "../../context/AppContext";
+import toast from "react-hot-toast";
 
 const ListRoom = () => {
-  const [rooms, setRooms] = useState(roomsDummyData);
+  const [rooms, setRooms] = useState([]);
+  const { axios, getToken, user } = useAppContext();
+
+  // fetch rooms
+  const fetchRooms = async () => {
+    try {
+      const { data } = await axios.get("/api/rooms/owner", {
+        headers: { Authorization: `Bearer ${await getToken()}` },
+      });
+
+      if (data.success) {
+        // console.log(data);
+        setRooms(data.rooms);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+      // console.log(error);
+    }
+  };
+
+  // toggle availability of room
+  const toggleAvailability = async (roomId) => {
+    const { data } = await axios.post(
+      "/api/rooms/toggle-availability",
+      { roomId },
+      {
+        headers: { Authorization: `Bearer ${await getToken()}` },
+      }
+    );
+    if (data.success) {
+      fetchRooms();
+      toast.success(data.message);
+    } else {
+      toast.error(data.message);
+    }
+  };
+
+  useEffect(() => {
+    if (user) fetchRooms();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   return (
     <div>
@@ -49,6 +91,7 @@ const ListRoom = () => {
                 <td className="py-3 px-4 border-t border-gray-300 text-sm text-red-500 text-center">
                   <label className="relative inline-flex items-center cursor-pointer text-gray-900 gap-3">
                     <input
+                      onChange={() => toggleAvailability(item._id)}
                       type="checkbox"
                       className="sr-only peer"
                       checked={item.isAvailable}
