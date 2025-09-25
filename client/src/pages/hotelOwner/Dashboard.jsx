@@ -1,10 +1,38 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Title from "../../components/Title";
-import { assets, dashboardDummyData } from "../../assets/assets";
+import { assets } from "../../assets/assets";
+import { useAppContext } from "../../context/AppContext";
 
 const Dashboard = () => {
-  const [dashBoardData, setDashboardData] = useState(dashboardDummyData);
+  const { currency, user, getToken, toast, axios } = useAppContext();
+  const [dashBoardData, setDashboardData] = useState({
+    bookings: [],
+    totalBookings: 0,
+    totalRevenue: 0,
+  });
+
+  const fetchDashboardData = async () => {
+    try {
+      const { data } = await axios.get("/api/bookings/hotel", {
+        headers: { Authorization: `Bearer ${await getToken()}` },
+      });
+
+      if (data.success) {
+        setDashboardData(data.dashboardData);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (user) fetchDashboardData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   return (
     <div>
